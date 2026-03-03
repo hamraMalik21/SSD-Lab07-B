@@ -1,10 +1,14 @@
+// Salman Jahangir - Worked on CommandListing.java
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;         
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;           
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.sql.*;
@@ -35,6 +39,7 @@ public class CommandListing{
         table.getColumns().addAll(idCol, cmdCol, descCol);
 
         ObservableList<Command> commandsList = FXCollections.observableArrayList();
+
         // 3. Load data from DB and fill up the table
         try{
             Connection con = DBUtils.establishConnection();
@@ -42,20 +47,35 @@ public class CommandListing{
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
-            
             while (rs.next()) {
-                Command command = new Command(rs.getInt("id"), rs.getString("command"), rs.getString("description"));
+                Command command = new Command(
+                        rs.getInt("id"),
+                        rs.getString("command"),
+                        rs.getString("description")
+                );
                 commandsList.add(command);
             }
 
             DBUtils.closeConnection(con, stmt);
         }catch (SQLException e) {
-                System.out.println("Error fetching data: " + e.getMessage());
+            System.out.println("Error fetching data: " + e.getMessage());
         }
+
         table.setItems(commandsList);
-        
-        // 4. Layout
-        VBox vbox = new VBox(table);
+
+        //4. Buttons (added below the table) new 
+        Button addBtn = new Button("Add New Command");
+        Button updateBtn = new Button("Update a Command");
+
+        // (For now just print; your teammates will link screens)
+        addBtn.setOnAction(e -> System.out.println("Add New Command clicked"));
+        updateBtn.setOnAction(e -> System.out.println("Update a Command clicked"));
+
+        HBox buttonBox = new HBox(10, addBtn, updateBtn);
+        buttonBox.setStyle("-fx-padding: 10;");
+
+        // 5. Layout (minimal change: include buttonBox)
+        VBox vbox = new VBox(table, buttonBox);
         Scene scene = new Scene(vbox, 750, 500);
 
         stage.setScene(scene);

@@ -67,8 +67,8 @@ public class CommandListing{
         Button addBtn = new Button("Add New Command");
         Button updateBtn = new Button("Update a Command");
 
-        // (For now just print; your teammates will link screens)
-        addBtn.setOnAction(e -> System.out.println("Add New Command clicked"));
+
+        addBtn.setOnAction(e -> new CommandAddition(new Stage()).show());
         updateBtn.setOnAction(e -> System.out.println("Update a Command clicked"));
 
         HBox buttonBox = new HBox(10, addBtn, updateBtn);

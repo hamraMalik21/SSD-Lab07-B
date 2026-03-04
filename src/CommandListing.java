@@ -69,7 +69,7 @@ public class CommandListing{
 
 
         addBtn.setOnAction(e -> new CommandAddition(new Stage()).show());
-        updateBtn.setOnAction(e -> System.out.println("Update a Command clicked"));
+        updateBtn.setOnAction(e -> new CommandUpdate(new Stage()).show());
 
         HBox buttonBox = new HBox(10, addBtn, updateBtn);
         buttonBox.setStyle("-fx-padding: 10;");
